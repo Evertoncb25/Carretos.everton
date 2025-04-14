@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Solicitação de Carreto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('IMG_20250330_224740_768.jpg'); /* Substitua pelo link da sua foto de fundo */
+            background-size: cover;
+            background-position:auto;
+            color: #fff;
+            padding: 5%;
+        }
+        .form-container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .form-group button:hover {
+            background-color: #218838;
+        }
+
+        /* Estilos para adicionar mais clientes */
+        .clientes-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .cliente-item {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .cliente-item input {
+            flex-grow: 1;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .add-cliente-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .add-cliente-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h1>Formulário para Solicitação de Carreto</h1>
+        
+        <form id="formCarreto" action="https://wa.me/message/LF2Y5MPJ4LGII1"
+            <!-- Nome do solicitante -->
+            <div class="form-group">
+                <label for="nome_solicitante">Nome do Solicitante:</label>
+                <input type="text" id="nome_solicitante" name="nome_solicitante" required>
+            </div>
+
+            <!-- Nome de quem vai receber -->
+            <div class="form-group">
+                <label for="nome_recebedor">Nome de Quem Vai Receber:</label>
+                <input type="text" id="nome_recebedor" name="nome_recebedor" required>
+            </div>
+
+            <!-- Data e horário para retirada -->
+            <div class="form-group">
+                <label for="data_retirada">Data e Horário para Retirada:</label>
+                <input type="datetime-local" id="data_retirada" name="data_retirada" required>
+            </div>
+
+            <!-- Necessidade de ajudante -->
+            <div class="form-group">
+                <label for="precisa_ajudante">Precisa de Ajudante?</label>
+                <select id="precisa_ajudante" name="precisa_ajudante" required>
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            </div>
+
+            <!-- Forma de pagamento -->
+            <div class="form-group">
+                <label for="forma_pagamento">Forma de Pagamento:</label>
+                <select id="forma_pagamento" name="forma_pagamento" required>
+                    <option value="pix">PIX</option>
+                    <option value="dinheiro">Dinheiro</option>
+                    <option value="cartao">Cartão de Crédito</option>
+                </select>
+            </div>
+
+            <!-- Cidade de origem -->
+            <div class="form-group">
+                <label for="cidade_origem">Cidade de Origem:</label>
+                <input type="text" id="cidade_origem" name="cidade_origem" placeholder="Digite a cidade de origem" required>
+            </div>
+
+            <!-- Bairro de origem -->
+            <div class="form-group">
+                <label for="bairro_origem">Bairro de Origem:</label>
+                <input type="text" id="bairro_origem" name="bairro_origem" placeholder="Digite o bairro de origem" required>
+            </div>
+
+            <!-- Cidade de destino -->
+            <div class="form-group">
+                <label for="cidade_destino">Cidade de Destino:</label>
+                <input type="text" id="cidade_destino" name="cidade_destino" placeholder="Digite a cidade de destino" required>
+            </div>
+
+            <!-- Bairro de destino -->
+            <div class="form-group">
+                <label for="bairro_destino">Bairro de Destino:</label>
+                <input type="text" id="bairro_destino" name="bairro_destino" placeholder="Digite o bairro de destino" required>
+            </div>
+
+            <!-- Indicar outros clientes -->
+            <div class="form-group">
+                <label for="clientes">Indique outros clientes (Nome e WhatsApp):</label>
+                <div class="clientes-container" id="clientes-container">
+                    <div class="cliente-item">
+                        <input type="text" name="clientes[]" placeholder="Nome e WhatsApp do cliente" required>
+                    </div>
+                </div>
+                <button type="button" class="add-cliente-btn" id="add-cliente-btn">Adicionar mais clientes</button>
+            </div>
+
+            <!-- Envio para WhatsApp -->
+            <div class="form-group">
+                <button type="submit">
+                    Enviar para WhatsApp
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        // Função para adicionar mais clientes
+        document.getElementById('add-cliente-btn').addEventListener('click', function() {
+            const clientesContainer = document.getElementById('clientes-container');
+            const newClienteItem = document.createElement('div');
+            newClienteItem.classList.add('cliente-item');
+            newClienteItem.innerHTML = `<input type="text" name="clientes[]" placeholder="Nome e WhatsApp do cliente" required>`;
+            clientesContainer.appendChild(newClienteItem);
+        });
+
+        // Função para calcular o alerta baseado na data e hora
+        function checkRetirada() {
+            const dataRetirada = document.getElementById('data_retirada').value;
+            if (dataRetirada) {
+                const retiradaDate = new Date(dataRetirada);
+                const currentTime = new Date();
+
+                // Alerta se a data de retirada for igual ou anterior a 30 minutos do momento atual
+                const timeDiff = retiradaDate - currentTime;
+
+                if (timeDiff <= 30 * 60 * 1000 && timeDiff >= 0) {
+                    alert('Você está a caminho para a retirada!');
+                }
+            }
+        }
+
+        // Atualiza o alerta automaticamente a cada 5 minutos
+        setInterval(checkRetirada, 5 * 60 * 1000); // Checa a cada 5 minutos
+
+        // Também pode verificar o alerta na submissão do formulário
+        document.getElementById('formCarreto').addEventListener('submit', function(e) {
+            e.preventDefault(); // Impede o envio imediato do formulário
+            checkRetirada(); // Checa o alerta quando o formulário for enviado
+            this.submit(); // Submete o formulário depois de verificar
+        });
+    </script>
+
+</body>
+</html>
